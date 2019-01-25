@@ -7,6 +7,7 @@ build:
 	env GOOS=linux go build -ldflags="-s -w" -o bin/getTodoWithID src/functions/getTodoWithID/main.go
 	env GOOS=linux go build -ldflags="-s -w" -o bin/insertTodo src/functions/insertTodo/main.go
 	env GOOS=linux go build -ldflags="-s -w" -o bin/deleteTodoWithID src/functions/deleteTodoWithID/main.go
+	env GOOS=linux go build -ldflags="-s -w" -o bin/deleteAll src/functions/deleteAll/main.go
 
 clean:
 	rm -rf ./bin ./vendor Gopkg.lock
