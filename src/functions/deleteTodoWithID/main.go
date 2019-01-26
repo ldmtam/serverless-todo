@@ -3,7 +3,7 @@ package main
 import (
 	"strconv"
 
-	"github.com/serverless-todo/src/utils"
+	"github.com/ldmtam/serverless-todo/src/utils"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
