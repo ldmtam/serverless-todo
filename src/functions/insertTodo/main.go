@@ -3,6 +3,10 @@ package main
 import (
 	"encoding/json"
 
+	"github.com/ldmtam/serverless-todo/src/repositories"
+
+	"github.com/ldmtam/serverless-todo/src/database"
+
 	"github.com/ldmtam/serverless-todo/src/utils"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -19,9 +23,20 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return utils.ResponseError(err)
 	}
 
-	utils.MockTodos = append(utils.MockTodos, todo)
+	mysql, err := database.NewMySQL()
+	if err != nil {
+		return utils.ResponseError(err)
+	}
 
-	return utils.ResponseOK(utils.MockTodos)
+	todoRepo := repositories.NewTodoRepo(mysql)
+	todoRepo.InsertTodo(todo)
+
+	todoList, err := todoRepo.GetAllTodos()
+	if err != nil {
+		return utils.ResponseError(err)
+	}
+
+	return utils.ResponseOK(todoList)
 }
 
 func main() {
