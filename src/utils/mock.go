@@ -1,6 +1,6 @@
 package utils
 
-import "github.com/serverless-todo/src/models"
+import "github.com/ldmtam/serverless-todo/src/models"
 
 // MockTodos todo mock data
 var MockTodos = []models.Todo{
