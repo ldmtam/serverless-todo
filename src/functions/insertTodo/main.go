@@ -29,6 +29,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}
 
 	todoRepo := repositories.NewTodoRepo(mysql)
+
 	todoRepo.InsertTodo(todo)
 
 	todoList, err := todoRepo.GetAllTodos()

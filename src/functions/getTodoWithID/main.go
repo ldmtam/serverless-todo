@@ -5,7 +5,8 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-	"github.com/ldmtam/serverless-todo/src/models"
+	"github.com/ldmtam/serverless-todo/src/database"
+	"github.com/ldmtam/serverless-todo/src/repositories"
 	"github.com/ldmtam/serverless-todo/src/utils"
 )
 
@@ -16,15 +17,19 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return utils.ResponseError(err)
 	}
 
-	var returnedData models.Todo
-	for _, todo := range utils.MockTodos {
-		if todo.ID == id {
-			returnedData = todo
-			break
-		}
+	mysql, err := database.NewMySQL()
+	if err != nil {
+		return utils.ResponseError(err)
 	}
 
-	return utils.ResponseOK(returnedData)
+	todoRepo := repositories.NewTodoRepo(mysql)
+
+	todo, err := todoRepo.GetTodoWithID(id)
+	if err != nil {
+		return utils.ResponseError(err)
+	}
+
+	return utils.ResponseOK(todo)
 }
 
 func main() {

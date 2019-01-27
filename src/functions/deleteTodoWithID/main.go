@@ -1,8 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 
+	"github.com/ldmtam/serverless-todo/src/database"
+	"github.com/ldmtam/serverless-todo/src/repositories"
 	"github.com/ldmtam/serverless-todo/src/utils"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -16,15 +19,18 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		return utils.ResponseError(err)
 	}
 
-	for index, todo := range utils.MockTodos {
-		if todo.ID == id {
-			left := utils.MockTodos[:index]
-			right := utils.MockTodos[index+1:]
-			utils.MockTodos = append(left, right...)
-		}
+	mysql, err := database.NewMySQL()
+	if err != nil {
+		return utils.ResponseError(err)
 	}
 
-	return utils.ResponseOK(utils.MockTodos)
+	todoRepo := repositories.NewTodoRepo(mysql)
+	err = todoRepo.DeleteTodoWithID(id)
+	if err != nil {
+		return utils.ResponseError(err)
+	}
+
+	return utils.ResponseOK(fmt.Sprintf("Successfully delete todo with ID %v", id))
 }
 
 func main() {

@@ -23,3 +23,18 @@ func (todoRepo *TodoRepo) InsertTodo(todo models.Todo) error {
 func (todoRepo *TodoRepo) GetAllTodos() ([]models.Todo, error) {
 	return todoRepo.database.GetAllTodos()
 }
+
+// GetTodoWithID ...
+func (todoRepo *TodoRepo) GetTodoWithID(id int) (models.Todo, error) {
+	return todoRepo.database.GetTodoWithID(id)
+}
+
+// DeleteTodoWithID ...
+func (todoRepo *TodoRepo) DeleteTodoWithID(id int) error {
+	return todoRepo.database.DeleteTodoWithID(id)
+}
+
+// DeleteAllTodos ...
+func (todoRepo *TodoRepo) DeleteAllTodos() error {
+	return todoRepo.database.DeleteAllTodos()
+}
