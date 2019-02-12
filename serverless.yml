@@ -48,7 +48,7 @@ functions:
     handler: bin/todo
     events:
       - http:
-          path: {proxy+}
+          path: /{proxy+}
           method: any
     memorySize: 512
 
