@@ -27,7 +27,7 @@ provider:
   region: ap-southeast-1
   vpc:
     securityGroupIds:
-      - sg-007fb2d49786a39eb
+      - sg-b3b68dc8
     subnetIds:
       - subnet-09834b50
       - subnet-f5485592
@@ -35,6 +35,7 @@ provider:
 
   environment:
     CONNECTION_STRING: ${ssm:dbConnectionString}
+    MODE: "production"
 
 package:
  exclude:
@@ -43,45 +44,12 @@ package:
    - ./bin/**
 
 functions:
-  getAllTodos:
-    handler: bin/getAllTodos
+  todoAPI:
+    handler: bin/todo
     events:
       - http:
-          path: todo
-          method: get
+          path: {proxy+}
+          method: any
     memorySize: 512
 
-  getTodoWithID:
-    handler: bin/getTodoWithID
-    events:
-      - http:
-          path: todo/{id}
-          method: get
-    memorySize: 512
 
-  insertTodo:
-    handler: bin/insertTodo
-    events:
-      - http:
-          path: todo
-          method: post
-    memorySize: 512
-
-  deleteTodoWithID:
-    handler: bin/deleteTodoWithID
-    events:
-      - http:
-          path: todo/{id}
-          method: delete
-    memorySize: 512
-
-  deleteAll:
-    handler: bin/deleteAll
-    events:
-      - http:
-          path: todo
-          method: delete
-    memorySize: 512
-
-plugins:
-  - serverless-sam

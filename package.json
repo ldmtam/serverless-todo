@@ -1,9 +1,0 @@
-{
-  "name": "aws-go-dep",
-  "description": "",
-  "version": "0.1.0",
-  "dependencies": {},
-  "devDependencies": {
-    "serverless-sam": "^0.2.0"
-  }
-}
