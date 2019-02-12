@@ -21,11 +21,13 @@ func getAllTodos(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "cannot get all todos",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"result": todos,
 	})
+	return
 }
 
 func getTodoWithID(c *gin.Context) {
@@ -36,6 +38,7 @@ func getTodoWithID(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "todo id must be integer",
 		})
+		return
 	}
 
 	todoRepo := repositories.NewTodoRepo(db)
@@ -44,18 +47,20 @@ func getTodoWithID(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "cannot get todo",
 		})
+		return
 	}
 
 	if todo.ID == 0 {
 		c.JSON(http.StatusOK, gin.H{
 			"message": fmt.Sprintf("cannot find todo with id = %v", id),
 		})
+		return
 	} else {
 		c.JSON(http.StatusOK, gin.H{
 			"result": todo,
 		})
+		return
 	}
-
 }
 
 func insertTodo(c *gin.Context) {
@@ -67,6 +72,7 @@ func insertTodo(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "cannot parse todo post data",
 		})
+		return
 	}
 
 	todoRepo := repositories.NewTodoRepo(db)
@@ -75,11 +81,13 @@ func insertTodo(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "cannot insert todo",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"result": "insert new todo successfully",
 	})
+	return
 }
 
 func deleteAllTodos(c *gin.Context) {
@@ -91,11 +99,13 @@ func deleteAllTodos(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "cannot delete all todos",
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"result": "delete all todos succesfully",
 	})
+	return
 }
 
 func deleteTodoWithID(c *gin.Context) {
@@ -106,6 +116,7 @@ func deleteTodoWithID(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "todo id must be integer",
 		})
+		return
 	}
 
 	todoRepo := repositories.NewTodoRepo(db)
@@ -114,9 +125,11 @@ func deleteTodoWithID(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": fmt.Sprintf("cannot delete todo with id = %v", id),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"result": fmt.Sprintf("delete todo with id = %v successfully", id),
 	})
+	return
 }
